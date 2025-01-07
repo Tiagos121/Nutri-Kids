@@ -5,26 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórias</title>
     <script src="js/historia.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
+            overflow: hidden; /* Remove scroll */
         }
-        div {
-            height: 100%;
+
+        #fundo_historia {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
-        img {
-            height: 100%;
+
+        .box-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .grid-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .food-item {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .food-item img {
+            max-width: 80px;
+            max-height: 80px;
+            margin-bottom: 5px;
+        }
+
+        .food-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .food-item.selected {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        #confirm-button {
             width: 100%;
-            display: block; 
+            padding: 10px;
         }
     </style>
 </head>
 <body>
-    <div>
-        <img id="fundo_historia">
+    <img id="fundo_historia" src="" alt="Fundo da história">
+    <div class="box-container">
+        <h3>O que queres comer?</h3>
+        <div class="grid-items">
+            <div class="food-item" onclick="toggleSelection(this)">
+                <img id="image1" alt="">
+                <p id="alimento1"></p>
+            </div>
+            <div class="food-item" onclick="toggleSelection(this)">
+                <img id="image2" alt="">
+                <p id="alimentos2"></p>
+            </div>
+            <div class="food-item" onclick="toggleSelection(this)">
+                <img id="image3" alt="">
+                <p id="alimento3"></p>
+            </div>
+            <div class="food-item" onclick="toggleSelection(this)">
+                <img id="image4" alt="">
+                <p id="alimento4"></p>
+            </div>
+        </div>
+        <button id="confirm-button" class="btn btn-primary" onclick="confirmSelection()" disabled>Confirmar</button>
     </div>
 </body>
 </html>
+
+
