@@ -20,14 +20,17 @@ body, h1, h2, h3, h4, h5, h6, h7, p, button {
     transition: background-color 0.5s ease;
 }
 
-.body3{
+.body3 {
     background-image: url("../imagens_menus/minijogo.png"); /* Substitua pelo caminho da sua imagem */
-    background-size:cover; /* A imagem cobrirá toda a tela */
+    background-size: cover; /* A imagem cobrirá toda a tela */
     background-position: center; /* Posiciona a imagem no centro */
     background-repeat: no-repeat; /* A imagem não se repetirá */
     background-color: #FFF26D;
-
+    height: 100vh; /* Garante que o background preencha toda a altura da tela */
+    width: 100%; /* Garante que o fundo preencha toda a largura da tela */
+    margin: 0; /* Remove margens do body, se necessário */
 }
+
 
 
 h1 {
@@ -374,3 +377,4 @@ h6{
         width: 80px;
     }
 }
+

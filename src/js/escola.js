@@ -1,8 +1,6 @@
-
-
 window.onload = function() {
     mudacenario("../imagens_projeto/imagens_fundo/cenario1_escola.jpeg",document.getElementById("fundo_historia"));
-
+    loadPersonagem();
     fundos_historia = [
         "../imagens_projeto/imagens_fundo/cenario1_escola.jpeg",
         "../imagens_projeto/imagens_fundo/cenario2_escola.jpeg",
@@ -41,6 +39,7 @@ window.onload = function() {
 
 
 
+// escola - Cenario 
 // Escola - Cenario 1 
 var escola_cenario1_comida_certa = [
     "../imagens_projeto/escola/cenario1/iogurte.png",
@@ -85,6 +84,8 @@ var escola_cenario3_comida_errada = [
     "../imagens_projeto/escola/cenario3/milkshake.jpg",
     "../imagens_projeto/escola/cenario3/nuggets.png",
 ];
+
+
 
 //Props
 cenario_props = [ ["../imagens_projeto/escola/cenario1/chaleira.png", //Props 1
@@ -150,8 +151,13 @@ function mostrarAlimentos() {
     todos.forEach((alimento) => {
         const div = document.createElement("div");
         div.className = "food-item";
-        div.setAttribute("onclick", "toggleSelection(this)");
-
+        div.setAttribute("onclick", "toggleSelection(this);");
+        
+        if (certos.includes(alimento)) {
+            div.setAttribute("valor", "certo");
+        } else if (errados.includes(alimento)) {
+            div.setAttribute("valor", "errado");
+        }
         const img = document.createElement("img");
         img.src = alimento;
         img.alt = "Alimento";
@@ -167,5 +173,3 @@ function mostrarAlimentos() {
     // Exibe a caixa
     document.getElementById("caixa").style.display = "block";
 }
-
-

@@ -1,3 +1,4 @@
+
 // Função para redirecionar para outra página
 function goToPage(page) {
     window.location.href = page;
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Define os eventos de clique
     miniJogoButton.onclick = function () {
+
         goToPage('jogo.html');
     };
 

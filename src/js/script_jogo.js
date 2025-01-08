@@ -1,3 +1,4 @@
+
 function showCharacterSelection() {
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('character-selection').style.display = 'block';
@@ -12,6 +13,7 @@ function showMapSelection(characterName) {
 
 
 function navigateTo(page) {
+    audioJogo.play();
     window.location.href = page;
 }
 
@@ -36,7 +38,11 @@ function eraseCookie(name) {   // Exemplo de uso: eraseCookie("utilizador");  //
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    
+    localStorage.clear();
     const startButton = document.getElementById("start-button");
     const characterSelection = document.getElementById("character-selection");
     const startScreen = document.getElementById("start-screen");
@@ -48,32 +54,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show character selection screen
     document.getElementById("start-button").onclick= function(){
-        //eraseCookie("personagem");
         document.getElementById("start-screen").style.display = "none";
         document.getElementById("character-selection").style.display = "block";
         document.getElementById("body3").style.backgroundImage = "none";
-       document.getElementById("missaoSaborosa").innerHTML = "";
-       console.log("Cookie Inicial: "+getCookie("personagem"));//Debug
+        document.getElementById("missaoSaborosa").innerHTML = "";
     }
 
-    // Add event listeners to character buttons
-    document.getElementById("carlos").onclick = () => {
-        showMapSelection();
-        document.getElementById("carlos").style.display = "block";
-        setCookie("personagem", "carlos", 7);
-        console.log("Personagem atual: "+getCookie("personagem"));//Debug
+// Add event listeners to character buttons
+document.getElementById("carlos").onclick = () => {
+    showMapSelection();
+    document.getElementById("carlos").style.display = "block"; // Personagem 1
+    const cImageSrc = document.getElementById("carlos").querySelector("img").src;
+    const relativeSrcCarlos = cImageSrc.substring(cImageSrc.lastIndexOf("/imagens_menus/") + 1); // Extrai o caminho relativo
+    localStorage.setItem("personagem", relativeSrcCarlos);
 
-        document.getElementById("mapSelection").style.display = "flex";
-    };
+    document.getElementById("mapSelection").style.display = "flex";
+};
 
-    document.getElementById("mariana").onclick = () => {
-        showMapSelection();
-        document.getElementById("mariana").display = "flex";
-        setCookie("personagem", "mariana", 7);
-        console.log("Personagem atual: "+getCookie("personagem"));//Debug
+document.getElementById("mariana").onclick = () => {
+    showMapSelection();
+    document.getElementById("mariana").style.display = "flex"; // Personagem 2
+    const mImageSrc = document.getElementById("mariana").querySelector("img").src;
+    const relativeSrcMariana = mImageSrc.substring(mImageSrc.lastIndexOf("/imagens_menus/") + 1); // Extrai o caminho relativo
+    localStorage.setItem("personagem", relativeSrcMariana);
 
-        document.getElementById("mapSelection").style.display = "flex";
-    };
+    document.getElementById("mapSelection").style.display = "flex";
+};
+
 
 
 
@@ -85,7 +92,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-document.getElementById("back-button").onclick = function () {
-    history.back();
-};

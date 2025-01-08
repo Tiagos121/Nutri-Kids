@@ -2,10 +2,10 @@
 
 window.onload = function() {
     mudacenario("../imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg",document.getElementById("fundo_historia"));
-
+    loadPersonagem();
     fundos_historia = [
         "../imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg",
-        "../imagens_projeto/imagens_fundo/cenario2_aniversario.jpg",
+        "../imagens_projeto/imagens_fundo/cenario2_aniversario.jpeg",
         "../imagens_projeto/imagens_fundo/cenario3_aniversario.jpeg",
     ];
     document.getElementById("caixa").style.display = "none";
@@ -78,7 +78,7 @@ var aniversario_cenario3_comida_errada = [
     "../imagens_projeto/aniversario/cenario3/bolo_recheado.png",
     "../imagens_projeto/aniversario/cenario3/gelado_caixa.png",
     "../imagens_projeto/aniversario/cenario3/pintarolas.png",
-]; 
+];
 
 //Props
 cenario_props = [ ["../imagens_projeto/aniversario/cenario1/bandeja.png", //Props 1
@@ -144,8 +144,13 @@ function mostrarAlimentos() {
     todos.forEach((alimento) => {
         const div = document.createElement("div");
         div.className = "food-item";
-        div.setAttribute("onclick", "toggleSelection(this)");
-
+        div.setAttribute("onclick", "toggleSelection(this);");
+        
+        if (certos.includes(alimento)) {
+            div.setAttribute("valor", "certo");
+        } else if (errados.includes(alimento)) {
+            div.setAttribute("valor", "errado");
+        }
         const img = document.createElement("img");
         img.src = alimento;
         img.alt = "Alimento";
@@ -161,5 +166,3 @@ function mostrarAlimentos() {
     // Exibe a caixa
     document.getElementById("caixa").style.display = "block";
 }
-
-

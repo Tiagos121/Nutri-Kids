@@ -94,7 +94,18 @@
             height: auto;
             display: block;
         }
-
+        
+        .img-container-personagem{
+            position: absolute;
+            top: 70%; /* Centraliza verticalmente */
+            left: 25%; /* Deixa a imagem na esquerda */
+            transform: translateY(-50%); /* Ajusta o centro vertical */
+        }
+        .img-container-personagem img{
+            width: 200px;
+            height: auto;
+            display: block;
+        }
 
 
 .box-container {
@@ -138,15 +149,28 @@
         }
 
         .food-item.selected {
-            border-color: #007bff;
-            background-color: rgba(0, 123, 255, 0.1);
+            border-color: #9c5af5;
+            background-color: rgba(140, 0, 255, 0.1);
         }
 
         #confirm-button {
             width: 100%;
             padding: 10px;
+            background-color: #8A2BE2
         }
 
+    #pontuacao {
+        font-size: 24px; 
+        font-weight: bold; 
+        color:#FFF26D; 
+        background-color: #9c5af5;
+        padding: 10px; 
+        border-radius: 5px; 
+        text-align: center; 
+        margin: 20px auto; 
+        width: fit-content; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
     </style>
 </head>
 <body>
@@ -161,6 +185,9 @@
         <button class="img-posi-esquerda" valor="certo" id="img-posi-esquerda">
             <img src="../imagens_projeto/praia/cenario1/guarda_sol.png" alt="Imagem principal">
         </button>
+    </div>
+    <div class="img-container-personagem">
+        <img src="https://valdirprogramacoes.pt/media/MestrePortugal66c11c9bad91e.png" alt="Personagem" id="personagemFoteira">
     </div>
     <div class="img-container-direita">
         <!-- Seta apontando para o centro da imagem -->

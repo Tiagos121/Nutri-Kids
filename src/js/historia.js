@@ -1,6 +1,7 @@
+
 var fundo;
 var audioPop;
-var audioBackground = new Audio("../audio/musica.mp3");
+var audioBackground = new Audio("");
 let lastClickedButton = null; 
 let cenario = 0;
 let fundos_historia;
@@ -54,7 +55,7 @@ function criarListener(array, callback) {
     });
 }
 
-function verificaAcao (objeto){ //Recebe objeto clicado para confirmar se corresponde a uma ação correta || Exemplo de atributos de objeto clicavel : valor=certo/errado
+function verificaAcao (objeto,alimento){ //Recebe objeto clicado para confirmar se corresponde a uma ação correta || Exemplo de atributos de objeto clicavel : valor=certo/errado
     if(objeto.getAttribute("valor") == "certo"){
         console.log("Objeto tem valor 'certo'");
         // Verifica se já existem dois valores 'true' em 'condicoes'
@@ -70,18 +71,13 @@ function verificaAcao (objeto){ //Recebe objeto clicado para confirmar se corres
             }
         } 
     }
-    if (objeto.getAttribute("valor") === "certo") {
-        pontuacao += 1; // Incremento
-        console.log("Pontuação atual:", pontuacao);
-    } else {
-        pontuacao += 0; // Penalidade, se necessário
-        console.log("Pontuação atual:", pontuacao);
-    }
     console.log("Array condicoes : " +  condicoes);
 }
 
 window.onload = function(){
+
     
+        
         fundo = document.getElementById("fundo_historia");
         console.log(fundo.style);
         //Parametros url 
@@ -101,9 +97,42 @@ window.onload = function(){
             case "aniversario":
                 mudacenario("../imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg");
             break;
-        }
-        
+        }   
 }
+
+
+function loadPersonagem (){
+            // Pega o caminho da imagem armazenado no localStorage
+const caminhoImagem = localStorage.getItem("personagem");
+
+if (caminhoImagem) {
+    // Define o caminho completo para a imagem
+    const caminhoCompleto = "../" + caminhoImagem;  // Ou use a raiz se necessário
+
+    // Atribui o caminho ao src da imagem
+    document.getElementById("personagemFoteira").src = caminhoCompleto;
+}
+}
+
+function verificaPontos(itensSelecionados) {
+    let comidasAcertadas = JSON.parse(localStorage.getItem("comidasAcertadas")) || [];
+    itensSelecionados.forEach((objeto) => {
+        const alimento = objeto.getAttribute("valor") === "certo"; // Verifica se é um alimento certo
+        if (alimento) {
+            pontuacao += 10; // Incrementa pontuação
+            console.log("Pontuação atual:", pontuacao);
+
+            // Adiciona o alimento ao array de comidas acertadas
+            const alimentoImg = objeto.querySelector("img").src; // Obtém o caminho da imagem do alimento
+            if (!comidasAcertadas.includes(alimentoImg)) {
+                comidasAcertadas.push(alimentoImg);
+            }
+        }
+    });
+    // Salva o array atualizado no localStorage
+    localStorage.setItem("comidasAcertadas", JSON.stringify(comidasAcertadas));
+}
+
 
 //Caixa com a escolha
 let selectedItems = [];
@@ -133,22 +162,18 @@ function confirmSelection() {
             audioBackground.play();
         }
 
-        // Verificar pontuação para os itens selecionados
-        selectedItems.forEach(item => {
-            const imgSrc = item.querySelector("img").src;
-            verificarPontuacao(imgSrc);
-        });
-
         // Reativa o botão oposto ao último clicado
         if (lastClickedButton === "esquerda") {
             document.getElementById("img-posi-direita").disabled = false;
-            verificaAcao(document.getElementById("img-posi-esquerda"));
+            verificaAcao(document.getElementById("img-posi-esquerda"),false);
         } else if (lastClickedButton === "direita") {
             document.getElementById("img-posi-esquerda").disabled = false;
-            verificaAcao(document.getElementById("img-posi-direita"));
+            verificaAcao(document.getElementById("img-posi-direita"),false);
         }
 
-        // Finaliza o jogo no último cenário
+        // Verifica a pontuação com base nos itens selecionados
+        verificaPontos(selectedItems);
+        document.getElementById("pontuacao").textContent = `Pontuação: ${pontuacao}`;
         if (cenario === 3) {
             localStorage.setItem("pontuacaoFinal", pontuacao);
             window.location.href = "../pontuacao.html";

@@ -12,10 +12,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f0f0f0;
+            background-color: #8A2BE2;
         }
 
-        #imagem-superior {
+        #imagem-superior-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,10 +25,10 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            background-color: #fff;
+            background-color: #4f2b70;
         }
 
-        #imagem-superior img {
+        #imagem-superior-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -56,8 +56,7 @@
         .linha img {
             width: 100px;
             height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
+            object-fit: contain;
         }
 
         .linha .texto {
@@ -74,25 +73,38 @@
 
         .botao {
             padding: 15px 30px;
+            font-family: 'Luckiest Guy', cursive;
             font-size: 18px;
             color: #fff;
-            background-color: #007BFF;
+            background-color: #2BB316;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
+            margin: 0 auto;
+            margin-bottom: 2%;
         }
 
         .botao:hover {
-            background-color: #0056b3;
+            background-color: #FFF26D;
+            color: black;
+        }
+
+        #pontuacao-final {
+            margin-bottom: 2%;
+            font-family: 'Luckiest Guy', cursive;
+        }
+
+        .imagem_botao {
+            vertical-align: middle;
         }
 
     </style>
 </head>
 <body>
-    <div id="imagem-superior">
-        <img src="imagens_projeto/elementos_gerais/zero_estrelas.png" alt="Imagem Superior">
+    <div id="imagem-superior-container">
+        <img src="" alt="Imagem Superior" id="imagem-superior">
     </div>
     <div id="pontuacao-final">
 
@@ -101,73 +113,91 @@
     <div class="linha-container">
         <div id="linha-1" class="linha">
             <img id="imagem-1" src="" alt="Imagem 1">
-            <div id="texto-1" class="texto">Texto para a linha 1</div>
+            <div id="texto-1" class="texto"></div>
         </div>
 
-        <div id="linha-2" class="linha">
-            <img id="imagem-2" src="" alt="Imagem 2">
-            <div id="texto-2" class="texto">Texto para a linha 2</div>
-        </div>
-
-        <div id="linha-3" class="linha">
-            <img id="imagem-3" src="" alt="Imagem 3">
-            <div id="texto-3" class="texto">Texto para a linha 3</div>
-        </div>
-
-        <div id="linha-4" class="linha">
-            <img id="imagem-4" src="" alt="Imagem 4">
-            <div id="texto-4" class="texto">Texto para a linha 4</div>
-        </div>
-
-        <div id="linha-5" class="linha">
-            <img id="imagem-5" src="" alt="Imagem 5">
-            <div id="texto-5" class="texto">Texto para a linha 5</div>
-        </div>
-
-        <div id="linha-6" class="linha">
-            <img id="imagem-6" src="" alt="Imagem 6">
-            <div id="texto-6" class="texto">Texto para a linha 6</div>
-        </div>
     </div>
 
     <div class="botoes">
-        <a href="jogo.html" class="botao">Menu</a>
-        <button id="repetir-jogo" class="botao">Repetir Jogo</button>
+        <button id="repetir-jogo" class="botao"><img class="imagem_botao" src="imagens_projeto/elementos_gerais/correto.png" height="25px" alt=""><a href="jogo.html" class="botao">Missão Saborosa</a></button>
     </div>
 
     <script>
-        const pontuacaoMaxima = 12; // Pontuação máxima possível no jogo
+        const pontuacaoMaxima = 120; // Pontuação máxima possível no jogo
         let pontuacaoFinal;
     
+        function mostrarComidasAcertadas() {
+    // Recupera as comidas acertadas do localStorage
+    const comidasAcertadas = JSON.parse(localStorage.getItem("comidasAcertadas")) || [];
+
+    // Referência ao container principal
+    const container = document.querySelector(".linha-container");
+    
+    // Limpa o conteúdo existente no container
+    container.innerHTML = "";
+
+    // Itera pelas comidas acertadas e cria os elementos dinamicamente
+    comidasAcertadas.forEach((comida, index) => {
+        // Cria a estrutura de cada linha
+        const linha = document.createElement("div");
+        linha.className = "linha";
+
+        const imagem = document.createElement("img");
+        imagem.id = `imagem-${index + 1}`;
+        imagem.src = comida;
+        imagem.alt = `Imagem ${index + 1}`;
+
+        const texto = document.createElement("div");
+        texto.id = `texto-${index + 1}`;
+        texto.className = "texto";
+        texto.textContent = `Comida Correta`;
+
+        // Adiciona os elementos à linha
+        linha.appendChild(imagem);
+        linha.appendChild(texto);
+
+        // Adiciona a linha ao container
+        container.appendChild(linha);
+    });
+}
+
+
+
         // Exibe a pontuação final ao carregar a página
         window.onload = function () {
             // Recupera a pontuação do localStorage
             pontuacaoFinal = parseInt(localStorage.getItem("pontuacaoFinal"), 10) || 0;
+            console.log(pontuacaoFinal);
     
             // Atualiza o texto com a pontuação
             const porcentagem = (pontuacaoFinal / pontuacaoMaxima) * 100;
-            document.getElementById("resultado").innerText = `Você acertou ${pontuacaoFinal} de ${pontuacaoMaxima} (${porcentagem.toFixed(2)}%)`;
+            document.getElementById("pontuacao-final").innerText = `Pontuação: ${pontuacaoFinal} de ${pontuacaoMaxima} (${porcentagem.toFixed(2)}%)`;
     
             // Define a imagem correspondente à pontuação
             let imagemFinal;
-            if (pontuacaoFinal === 0) {
-                imagemFinal = "imagens_projeto/elementos_gerais/zero_estrelas.png";
-            } else if (pontuacaoFinal >= 1 && pontuacaoFinal <= 4) {
-                imagemFinal = "imagens_projeto/elementos_gerais/uma_estrela.png";
-            } else if (pontuacaoFinal >= 5 && pontuacaoFinal <= 8) {
-                imagemFinal = "imagens_projeto/elementos_gerais/duas_estrelas.png";
-            } else if (pontuacaoFinal === pontuacaoMaxima) {
-                imagemFinal = "imagens_projeto/elementos_gerais/tres_estrelas.png";
-            }
+            if (pontuacaoFinal === 0 || pontuacaoFinal < 20) {
+        // Zero estrelas
+        imagemFinal = "imagens_projeto/elementos_gerais/zero_estrelas.png";
+    } else if (pontuacaoFinal >= 20 && pontuacaoFinal < 60) {
+        // Uma estrela
+        imagemFinal = "imagens_projeto/elementos_gerais/uma_estrela.png";
+    } else if (pontuacaoFinal >= 60 && pontuacaoFinal < 120) {
+        // Duas estrelas
+        imagemFinal = "imagens_projeto/elementos_gerais/duas_estrelas.png";
+    } else if (pontuacaoFinal === pontuacaoMaxima) {
+        // Três estrelas
+        imagemFinal = "imagens_projeto/elementos_gerais/tres_estrelas.png";
+    }
     
             // Atualiza a imagem exibida na página
-            document.querySelector('#imagem-superior img').src = imagemFinal;
+            document.getElementById('imagem-superior').src = imagemFinal;
+            mostrarComidasAcertadas();
         };
     
         // Adiciona o evento para o botão de repetir o jogo
         document.getElementById('repetir-jogo').addEventListener('click', () => {
             localStorage.removeItem("pontuacaoFinal"); // Reseta a pontuação
-            window.location.href = "pagina_inicial.html"; // Volta para a página inicial
+            window.location.href = "jogo.html"; // Volta para a página inicial
         });
     </script>    
 </body>

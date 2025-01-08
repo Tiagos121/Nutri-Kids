@@ -22,12 +22,17 @@ document.getElementById('slice5').style.backgroundImage = "url('imagens_menus/ca
 document.getElementById('slice6').style.backgroundImage = "url('imagens_menus/leguminosas.jpg')";
 document.getElementById('slice7').style.backgroundImage = "url('imagens_menus/vegetais.jpg')";
 // Configurar cliques nas fatias
-document.getElementById('sliceWater').onclick = () => handleSliceClick('Água', '#1E90FF', 'Água é essencial para a vida. Beba bastante!', 'audio/frutas.mp3');
-document.getElementById('slice1').onclick = () => handleSliceClick('Oleos e Gorguras', '#FFD700', 'Cereais são fontes importantes de energia.', 'audio/frutas.mp3');
-document.getElementById('slice2').onclick = () => handleSliceClick('Cereais e derivados, tubérculos', '#228B22', 'Tubérculos são ricos em carboidratos e fibras.', 'audio/frutas.mp3');
-document.getElementById('slice3').onclick = () => handleSliceClick('Frutas', '#FF6347', 'Hortícolas são ricos em vitaminas e minerais.', 'audio/frutas.mp3');
-document.getElementById('slice4').onclick = () => handleSliceClick('Lacticínios', '#FF4500', 'Frutas são essenciais para uma dieta equilibrada.', 'audio/frutas.mp3');
-document.getElementById('slice5').onclick = () => handleSliceClick('Carnes, Pescado e Ovos', '#D3D3D3', 'Lacticínios são fontes de cálcio e proteína.', 'audio/frutas.mp3');
-document.getElementById('slice6').onclick = () => handleSliceClick('Leguminosas', '#8B4513', 'Carnes, pescado e ovos são fontes de proteína.', 'audio/frutas.mp3');
-document.getElementById('slice7').onclick = () => handleSliceClick('Hotículas', '#8A2BE2', 'Leguminosas são boas fontes de proteína vegetal.', 'audio/frutas.mp3');
+document.getElementById('sliceWater').onclick = () => handleSliceClick('Água', '#1E90FF', 'Água é essencial para a vida. Beba bastante!', 'audio/agua.mp3');
+document.getElementById('slice3').onclick = () => handleSliceClick('Frutas', '#FF6347', 'Frutas são essenciais para uma dieta equilibrada.', 'audio/frutas.mp3');
+document.getElementById('slice5').onclick = () => handleSliceClick('Carnes, Pescado e Ovos', '#D3D3D3', 'Carnes, pescado e ovos são fontes de proteína.', 'audio/carne_ovos_e_peixe.mp3');
+document.getElementById('slice6').onclick = () => handleSliceClick('Leguminosas', '#8B4513', 'Leguminosas são boas fontes de proteína vegetal.', 'audio/leguminosas.mp3');
+document.getElementById('slice7').onclick = () => handleSliceClick('Hotículas', '#8A2BE2', 'Hortícolas são ricos em vitaminas e minerais.', 'audio/vegetais.mp3');
+document.getElementById('slice1').onclick = () => handleSliceClick('Óleos e Gorduras', '#FFD700', 'Óleos e gorduras fornecem energia, mas devem ser consumidos com moderação.', 'audio/oleos_e_gorduras.mp3');
+document.getElementById('slice2').onclick = () => handleSliceClick('Cereais e Derivados, Tubérculos', '#228B22', 'Cereais são fontes importantes de energia e fibras.', 'audio/cereisco.mp3');
+document.getElementById('slice4').onclick = () => handleSliceClick('Lacticínios', '#FF4500', 'Lacticínios são ricos em cálcio, importante para os ossos.', 'audio/laticinios.mp3');
+
+
+
+
+
 

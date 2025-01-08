@@ -2,7 +2,7 @@
 
 window.onload = function() {
     mudacenario("../imagens_projeto/imagens_fundo/cenario1_praia.jpeg",document.getElementById("fundo_historia"));
-
+    loadPersonagem();
     fundos_historia = [
         "../imagens_projeto/imagens_fundo/cenario1_praia.jpeg",
         "../imagens_projeto/imagens_fundo/cenario2_praia.jpeg",
@@ -151,8 +151,13 @@ function mostrarAlimentos() {
     todos.forEach((alimento) => {
         const div = document.createElement("div");
         div.className = "food-item";
-        div.setAttribute("onclick", "toggleSelection(this)");
-
+        div.setAttribute("onclick", "toggleSelection(this);");
+        
+        if (certos.includes(alimento)) {
+            div.setAttribute("valor", "certo");
+        } else if (errados.includes(alimento)) {
+            div.setAttribute("valor", "errado");
+        }
         const img = document.createElement("img");
         img.src = alimento;
         img.alt = "Alimento";
@@ -167,22 +172,4 @@ function mostrarAlimentos() {
 
     // Exibe a caixa
     document.getElementById("caixa").style.display = "block";
-
-    document.getElementById("pontuacao").textContent = `Pontuação: ${pontuacao}`;
-
-    
-}
-
-
-function verificarPontuacao(alimentoSelecionado) {
-    const alimentosCertos = {
-        0: praia_cenario1_comida_certa,
-        1: praia_cenario2_comida_certa,
-        2: praia_cenario3_comida_certa,
-    }[cenario] || [];
-
-    if (alimentosCertos.includes(alimentoSelecionado)) {
-        pontuacao++;
-        console.log("Pontuação atual: ", pontuacao);
-    }
 }
