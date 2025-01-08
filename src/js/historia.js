@@ -1,14 +1,62 @@
 var fundo;
+var audioPop;
+var audioBackground = new Audio("../audio/musica.mp3");
+let lastClickedButton = null; 
+let cenario = 0;
+let fundos_historia;
+let cenario_props;
+let pontuacao = 0;
+
 //Condicoes cenario
-var condicoes = [false,false];
+let condicoes = [false,false];
 //Muda cenario
-function mudacenario(pathCenario){
-    console.log(pathCenario);
+function mudacenario(pathCenario,fundo){
     fundo.src = pathCenario;
-}
     
+// Cria um novo listener com o array atualizado
+condicoes = criarListener(fundos_historia, (novoArray) => {
+    console.log("Callback executado! Condições agora são:", novoArray);
+});
+
+document.getElementById("img-posi-esquerda").querySelector("img").src = cenario_props[cenario][0];
+document.getElementById("img-posi-direita").querySelector("img").src = cenario_props[cenario][1];
+
+
+}
+
+// Função para criar o listener
+function criarListener(array, callback) {
+    condicoes = [false, false]; // Reset do array condicoes para um novo cenário
+
+    return new Proxy(condicoes, {
+        set(target, property, value) {
+            target[property] = value; // Atualiza o valor no array original
+
+            console.log(`condicoes[${property}] mudou para: ${value}`);
+
+            // Verifica se o array "condicoes" está completamente true
+            if (target.every(condicao => condicao === true)) {
+                cenario = cenario + 1;
+                // Verifica o cenário atual e loga o elemento correspondente do array
+                if (cenario >= 0 && cenario < array.length) {
+                    console.log(`Elemento do array correspondente ao cenário ${cenario}:`, array[cenario]);
+                    mudacenario(array[cenario],document.getElementById("fundo_historia"));
+                } else {
+                    console.log("Cenário inválido ou fora dos limites do array.");
+                }
+
+                // Executa o callback, se fornecido
+                if (callback) callback(target);
+            }
+
+            return true; 
+        }
+    });
+}
+
 function verificaAcao (objeto){ //Recebe objeto clicado para confirmar se corresponde a uma ação correta || Exemplo de atributos de objeto clicavel : valor=certo/errado
-    if(objeto.valor == "certo"){
+    if(objeto.getAttribute("valor") == "certo"){
+        console.log("Objeto tem valor 'certo'");
         // Verifica se já existem dois valores 'true' em 'condicoes'
         const trueCount = condicoes.filter(cond => cond).length;
         
@@ -20,16 +68,20 @@ function verificaAcao (objeto){ //Recebe objeto clicado para confirmar se corres
                     break; 
                 }
             }
-        objeto.disabled = true;
-        } else{
-            //Caso estejam todas as condições atendidas reseta as condicoes e avança com a historia
-            condicoes = [false,false];
-            //avançar com a historia
-        }
+        } 
     }
+    if (objeto.getAttribute("valor") === "certo") {
+        pontuacao += 1; // Incremento
+        console.log("Pontuação atual:", pontuacao);
+    } else {
+        pontuacao += 0; // Penalidade, se necessário
+        console.log("Pontuação atual:", pontuacao);
+    }
+    console.log("Array condicoes : " +  condicoes);
 }
 
 window.onload = function(){
+    
         fundo = document.getElementById("fundo_historia");
         console.log(fundo.style);
         //Parametros url 
@@ -38,16 +90,16 @@ window.onload = function(){
         //Bakcground
         switch(urlParams.get('historia')){
             case "praia":
-                mudacenario("imagens_projeto/imagens_fundo/cenario1_praia.jpeg");
+                mudacenario("../imagens_projeto/imagens_fundo/cenario1_praia.jpeg");
                 break;
             case "natal":
-                mudacenario("imagens_projeto/imagens_fundo/cenario1_natal.jpeg");
+                mudacenario("../imagens_projeto/imagens_fundo/cenario1_natal.jpeg");
                 break;
             case "escola":
-                mudacenario("imagens_projeto/imagens_fundo/cenario1_escola.jpeg");
+                mudacenario("../imagens_projeto/imagens_fundo/cenario1_escola.jpeg");
             break;
             case "aniversario":
-                mudacenario("imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg");
+                mudacenario("../imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg");
             break;
         }
         
@@ -72,197 +124,42 @@ function toggleSelection(item) {
 
 function confirmSelection() {
     if (selectedItems.length === 2) {
-        alert("Selecionaste os itens: " +
-            selectedItems.map(item => item.querySelector('p').innerText).join(", "));
+        document.getElementById("caixa").style.display = "none";
+
+        const audio = new Audio('../audio/somclick.mp3');
+        audio.play();
+
+        if (audioBackground) {
+            audioBackground.play();
+        }
+
+        // Verificar pontuação para os itens selecionados
+        selectedItems.forEach(item => {
+            const imgSrc = item.querySelector("img").src;
+            verificarPontuacao(imgSrc);
+        });
+
+        // Reativa o botão oposto ao último clicado
+        if (lastClickedButton === "esquerda") {
+            document.getElementById("img-posi-direita").disabled = false;
+            verificaAcao(document.getElementById("img-posi-esquerda"));
+        } else if (lastClickedButton === "direita") {
+            document.getElementById("img-posi-esquerda").disabled = false;
+            verificaAcao(document.getElementById("img-posi-direita"));
+        }
+
+        // Finaliza o jogo no último cenário
+        if (cenario === 3) {
+            localStorage.setItem("pontuacaoFinal", pontuacao);
+            window.location.href = "../pontuacao.html";
+        }
+
         // Limpa a seleção
         selectedItems.forEach(item => item.classList.remove('selected'));
         selectedItems = [];
+
         document.getElementById('confirm-button').disabled = true;
     }
 }
 
-
-
-
-
-
-const alimentos = {
-    praia: [
-        { 
-            id: 1, // Cenário 1
-            certos: [
-                "imagens_projeto/praia/cenario1/agua_coco.png",
-                "imagens_projeto/praia/cenario1/agua.png",
-                "imagens_projeto/praia/cenario1/banana.png",
-                "imagens_projeto/praia/cenario1/maca.png",
-                "imagens_projeto/praia/cenario1/sanduiche.png",
-                "imagens_projeto/praia/cenario1/uvas.png",
-            ],
-            errados: [
-                "imagens_projeto/praia/cenario1/bolacha_recheada.png",
-                "imagens_projeto/praia/cenario1/churros.png",
-                "imagens_projeto/praia/cenario1/refrigerante.png",
-                "imagens_projeto/praia/cenario1/sumo_em_po.png",
-            ]
-        },
-        { 
-            id: 2, // Cenário 2
-            certos: [
-                "imagens_projeto/praia/cenario2/castanhas.png",
-                "imagens_projeto/praia/cenario2/cenoura_baby.png",
-                "imagens_projeto/praia/cenario2/pepino_palitos.png",
-                "imagens_projeto/praia/cenario2/torrada.png",
-            ],
-            errados: [
-                "imagens_projeto/praia/cenario2/algodao_doce.png",
-                "imagens_projeto/praia/cenario2/gelado.png",
-                "imagens_projeto/praia/cenario2/pipocas.png",
-            ]
-        },
-        { 
-            id: 3, // Cenário 3
-            certos: [
-                "imagens_projeto/praia/cenario3/arroz.png",
-                "imagens_projeto/praia/cenario3/limonada.png",
-                "imagens_projeto/praia/cenario3/peixe_grelhado.png",
-                "imagens_projeto/praia/cenario3/salada.png",
-            ],
-            errados: [
-                "imagens_projeto/praia/cenario3/fritas_palitos.png",
-                "imagens_projeto/praia/cenario3/hamburger.png",
-                "imagens_projeto/praia/cenario3/pizza.png",
-            ]
-        }
-    ],
-    natal: [
-        { 
-            id: 1, // Cenário 1
-            certos: [
-                "imagens_projeto/natal/cenario1/legumes_cozidos.png",
-                "imagens_projeto/natal/cenario1/lentilhas.png",
-                "imagens_projeto/natal/cenario1/nozes.png",
-                "imagens_projeto/natal/cenario1/peru_assado.png",
-            ],
-            errados: [
-                "imagens_projeto/natal/cenario1/pure_creme.png",
-                "imagens_projeto/natal/cenario1/rolo_carne.png",
-                "imagens_projeto/natal/cenario1/torta_carne.png",
-            ]
-        },
-        { 
-            id: 2, // Cenário 2
-            certos: [
-                "imagens_projeto/natal/cenario2/aletria.png",
-                "imagens_projeto/natal/cenario2/gelatina_caseira.png",
-                "imagens_projeto/natal/cenario2/salada_frutas.png",
-            ],
-            errados: [
-                "imagens_projeto/natal/cenario2/chocolate_leite.png",
-                "imagens_projeto/natal/cenario2/pudim.png",
-                "imagens_projeto/natal/cenario2/torta_creme.png",
-            ]
-        },
-        { 
-            id: 3, // Cenário 3
-            certos: [
-                "imagens_projeto/natal/cenario3/bolachas_integrais.png",
-                "imagens_projeto/natal/cenario3/cha.png",
-                "imagens_projeto/natal/cenario3/uvas_passas.png",
-            ],
-            errados: [
-                "imagens_projeto/natal/cenario3/chocolate_quente.png",
-                "imagens_projeto/natal/cenario3/pretzel.png",
-                "imagens_projeto/natal/cenario3/waffle_chocolate.png",
-            ]
-        }
-    ],
-    escola: [
-        { 
-            id: 1, // Cenário 1
-            certos: [
-                "imagens_projeto/escola/cenario1/iogurte.png",
-                "imagens_projeto/escola/cenario1/leite_simples.png",
-                "imagens_projeto/escola/cenario1/sumo_laranja.png",
-            ],
-            errados: [
-                "imagens_projeto/escola/cenario1/croissant_chocolate.png",
-                "imagens_projeto/escola/cenario1/donuts.png",
-                "imagens_projeto/escola/cenario1/fatias_bolo.png",
-                "imagens_projeto/escola/cenario1/leite_achocolatado.png",
-            ]
-        },
-        { 
-            id: 2, // Cenário 2
-            certos: [
-                "imagens_projeto/escola/cenario2/barra_cereais.png",
-                "imagens_projeto/escola/cenario2/melancia.png",
-                "imagens_projeto/escola/cenario2/morango.png",
-                "imagens_projeto/escola/cenario2/sumo_maca.png",
-            ],
-            errados: [
-                "imagens_projeto/escola/cenario2/batata_frita_pacote.png",
-                "imagens_projeto/escola/cenario2/coca-cola.png",
-                "imagens_projeto/escola/cenario2/panquecas.png",
-                "imagens_projeto/escola/cenario2/rebucados.png",
-            ]
-        },
-        { 
-            id: 3, // Cenário 3
-            certos: [
-                "imagens_projeto/escola/cenario3/esparguete.png",
-                "imagens_projeto/escola/cenario3/feijao_preto.png",
-                "imagens_projeto/escola/cenario3/grao_de_bico.png",
-                "imagens_projeto/escola/cenario3/sopa_legumes.png",
-                "imagens_projeto/escola/cenario3/sumo_morango.png",
-            ],
-            errados: [
-                "imagens_projeto/escola/cenario3/cachorro_quente.png",
-                "imagens_projeto/escola/cenario3/lasanha.png",
-                "imagens_projeto/escola/cenario3/milkshake.png",
-                "imagens_projeto/escola/cenario3/nuggets.png",
-            ]
-        }
-    ],
-    aniversario: [
-        { 
-            id: 1, // Cenário 1
-            certos: [
-                "imagens_projeto/aniversario/cenario1/espeto_frutas.png",
-                "imagens_projeto/aniversario/cenario1/ovo_cozido.png",
-                "imagens_projeto/aniversario/cenario1/sandes_queijo.png",
-            ],
-            errados: [
-                "imagens_projeto/aniversario/cenario1/bolas_queijo.png",
-                "imagens_projeto/aniversario/cenario1/coxinha.png",
-                "imagens_projeto/aniversario/cenario1/quiche.png",
-            ]
-        },
-        { 
-            id: 2, // Cenário 2
-            certos: [
-                "imagens_projeto/aniversario/cenario2/cupcake_mirtilo.png",
-                "imagens_projeto/aniversario/cenario2/rodelas_ananas.png",
-                "imagens_projeto/aniversario/cenario2/tosta_kiwi.png",
-            ],
-            errados: [
-                "imagens_projeto/aniversario/cenario2/brigadeiro.png",
-                "imagens_projeto/aniversario/cenario2/chupa_chupa.png",
-                "imagens_projeto/aniversario/cenario2/gomas.png",
-            ]
-        },
-        { 
-            id: 3, // Cenário 3
-            certos: [
-                "imagens_projeto/aniversario/cenario3/bolo_simples.png",
-                "imagens_projeto/aniversario/cenario3/sumo_melancia.png",
-                "imagens_projeto/aniversario/cenario3/tarte_maca.png",
-            ],
-            errados: [
-                "imagens_projeto/aniversario/cenario3/bolo_recheado.png",
-                "imagens_projeto/aniversario/cenario3/gelado_caixa.png",
-                "imagens_projeto/aniversario/cenario3/pintarolas.png",
-            ]
-        }
-    ]
-};
 

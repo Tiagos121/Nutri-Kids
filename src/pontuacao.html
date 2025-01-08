@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Jogo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        #imagem-superior {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        #imagem-superior img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .linha-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 80%;
+        }
+
+        .linha {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 48%;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .linha img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .linha .texto {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .botoes {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .botao {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .botao:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="imagem-superior">
+        <img src="imagens_projeto/elementos_gerais/zero_estrelas.png" alt="Imagem Superior">
+    </div>
+    <div id="pontuacao-final">
+
+    </div>
+
+    <div class="linha-container">
+        <div id="linha-1" class="linha">
+            <img id="imagem-1" src="" alt="Imagem 1">
+            <div id="texto-1" class="texto">Texto para a linha 1</div>
+        </div>
+
+        <div id="linha-2" class="linha">
+            <img id="imagem-2" src="" alt="Imagem 2">
+            <div id="texto-2" class="texto">Texto para a linha 2</div>
+        </div>
+
+        <div id="linha-3" class="linha">
+            <img id="imagem-3" src="" alt="Imagem 3">
+            <div id="texto-3" class="texto">Texto para a linha 3</div>
+        </div>
+
+        <div id="linha-4" class="linha">
+            <img id="imagem-4" src="" alt="Imagem 4">
+            <div id="texto-4" class="texto">Texto para a linha 4</div>
+        </div>
+
+        <div id="linha-5" class="linha">
+            <img id="imagem-5" src="" alt="Imagem 5">
+            <div id="texto-5" class="texto">Texto para a linha 5</div>
+        </div>
+
+        <div id="linha-6" class="linha">
+            <img id="imagem-6" src="" alt="Imagem 6">
+            <div id="texto-6" class="texto">Texto para a linha 6</div>
+        </div>
+    </div>
+
+    <div class="botoes">
+        <a href="jogo.html" class="botao">Menu</a>
+        <button id="repetir-jogo" class="botao">Repetir Jogo</button>
+    </div>
+
+    <script>
+        const pontuacaoMaxima = 12; // Pontuação máxima possível no jogo
+        let pontuacaoFinal;
+    
+        // Exibe a pontuação final ao carregar a página
+        window.onload = function () {
+            // Recupera a pontuação do localStorage
+            pontuacaoFinal = parseInt(localStorage.getItem("pontuacaoFinal"), 10) || 0;
+    
+            // Atualiza o texto com a pontuação
+            const porcentagem = (pontuacaoFinal / pontuacaoMaxima) * 100;
+            document.getElementById("resultado").innerText = `Você acertou ${pontuacaoFinal} de ${pontuacaoMaxima} (${porcentagem.toFixed(2)}%)`;
+    
+            // Define a imagem correspondente à pontuação
+            let imagemFinal;
+            if (pontuacaoFinal === 0) {
+                imagemFinal = "imagens_projeto/elementos_gerais/zero_estrelas.png";
+            } else if (pontuacaoFinal >= 1 && pontuacaoFinal <= 4) {
+                imagemFinal = "imagens_projeto/elementos_gerais/uma_estrela.png";
+            } else if (pontuacaoFinal >= 5 && pontuacaoFinal <= 8) {
+                imagemFinal = "imagens_projeto/elementos_gerais/duas_estrelas.png";
+            } else if (pontuacaoFinal === pontuacaoMaxima) {
+                imagemFinal = "imagens_projeto/elementos_gerais/tres_estrelas.png";
+            }
+    
+            // Atualiza a imagem exibida na página
+            document.querySelector('#imagem-superior img').src = imagemFinal;
+        };
+    
+        // Adiciona o evento para o botão de repetir o jogo
+        document.getElementById('repetir-jogo').addEventListener('click', () => {
+            localStorage.removeItem("pontuacaoFinal"); // Reseta a pontuação
+            window.location.href = "pagina_inicial.html"; // Volta para a página inicial
+        });
+    </script>    
+</body>
+</html>

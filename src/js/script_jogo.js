@@ -85,3 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+document.getElementById("back-button").onclick = function () {
+    history.back();
+};

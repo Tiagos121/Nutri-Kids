@@ -355,3 +355,22 @@ h6{
     color: #333;
 }
 
+@media (max-width: 768px) {
+    .img-posi-esquerda img {
+        width: 200px;
+    }
+
+    .seta-esquerda img {
+        width: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .img-posi-esquerda img {
+        width: 400px;
+    }
+
+    .seta-esquerda img {
+        width: 80px;
+    }
+}
