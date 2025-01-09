@@ -30,7 +30,7 @@ Os jogadores interagem com diferentes alimentos e precisam fazer escolhas saudá
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/nutri-kids.git
+   git clone https://github.com/Tiagos121/Nutri-Kids/ -b master
    ```
 
 2. Navegue até o diretório do projeto:
@@ -70,7 +70,7 @@ Adoramos contribuições! Se você quiser ajudar a melhorar o Nutri-Kids, siga e
 
 ## 🌐 Demo
 
-Acesse a versão demo do Nutri-Kids [clicando aqui](#). *(Adicione o link para a demo)*
+Acesse a versão demo do Nutri-Kids [clicando aqui](https://valdirprogramacoes.pt/projetos/project_1736366895_677edb2f9d0a7/src/).
 
 ---
 

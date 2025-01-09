@@ -5,7 +5,7 @@ window.onload = function() {
     loadPersonagem();
     fundos_historia = [
         "../imagens_projeto/imagens_fundo/cenario1_aniversario.jpeg",
-        "../imagens_projeto/imagens_fundo/cenario2_aniversario.jpeg",
+        "../imagens_projeto/imagens_fundo/cenario2_aniversario.jpg",
         "../imagens_projeto/imagens_fundo/cenario3_aniversario.jpeg",
     ];
     document.getElementById("caixa").style.display = "none";

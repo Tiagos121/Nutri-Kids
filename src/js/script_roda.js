@@ -13,7 +13,7 @@ function handleSliceClick(section, color, text, audioFile) {
     audio.play();
 }
 // Configurar imagens de fundo para cada fatia
-document.getElementById('sliceWater').style.backgroundImage = "url('imagens_menus/agua.jpg')";
+document.getElementById('sliceWater').style.backgroundImage = "url('imagens_menus/agua.png')";
 document.getElementById('slice1').style.backgroundImage = "url('imagens_menus/oleos.jpg')";
 document.getElementById('slice2').style.backgroundImage = "url('imagens_menus/hidratos.jpeg.')";
 document.getElementById('slice3').style.backgroundImage = "url('imagens_menus/frutas.jpg')";
