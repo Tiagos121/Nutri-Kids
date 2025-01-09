@@ -1,7 +1,7 @@
 # Nutri-Kids
 
 Bem-vindo ao **Nutri-Kids**! Este é um jogo educativo desenvolvido em **JavaScript** e **HTML** com o objetivo de ensinar crianças sobre alimentação saudável de uma forma divertida e interativa.
-![Nutri-Kids](readme.jpg)  
+![Nutri-Kids](readme.png)  
 
 ---
 
